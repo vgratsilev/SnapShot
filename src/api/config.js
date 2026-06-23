@@ -1,1 +1,1 @@
-export const apiKey = process.env.REACT_APP_FLICKR_API_KEY || "";
+export const apiKey = import.meta.env.VITE_FLICKR_API_KEY || "";

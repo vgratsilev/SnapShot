@@ -1,16 +1,19 @@
 import React, { useState } from "react";
 
-const Form = ({ handleSubmit, history }) => {
+const Form = ({ handleSubmit }) => {
   const [searchEntry, setSearchEntry] = useState("");
-  // update search text state
-  const updateSearchInput = e => {
-    setSearchEntry(e.target.value);
+
+  const updateSearchInput = event => {
+    setSearchEntry(event.target.value);
   };
+
+  const handleFormSubmit = event => {
+    handleSubmit(event, searchEntry);
+    setSearchEntry("");
+  };
+
   return (
-    <form
-      className="search-form"
-      onSubmit={e => handleSubmit(e, history, searchEntry)}
-    >
+    <form className="search-form" onSubmit={handleFormSubmit}>
       <input
         type="text"
         name="search"
@@ -20,10 +23,11 @@ const Form = ({ handleSubmit, history }) => {
       />
       <button
         type="submit"
-        className={`search-button ${searchEntry.trim() ? "active" : null}`}
+        className={`search-button ${searchEntry.trim() ? "active" : ""}`}
         disabled={!searchEntry.trim()}
+        aria-label="Search"
       >
-        <svg height="32" width="32">
+        <svg height="32" width="32" aria-hidden="true">
           <path
             d="M19.427 21.427a8.5 8.5 0 1 1 2-2l5.585 5.585c.55.55.546 1.43 0 1.976l-.024.024a1.399 1.399 0 0 1-1.976 0l-5.585-5.585zM14.5 21a6.5 6.5 0 1 0 0-13 6.5 6.5 0 0 0 0 13z"
             fill="#ffffff"

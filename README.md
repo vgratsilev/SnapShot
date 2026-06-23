@@ -20,7 +20,7 @@ The purpose of this project was to get familiar with React Hooks and Context API
 
 Click the demo link or clone/download the repository on your local machine.
 Create a `.env.local` file in the project root and add your Flickr API key:
-`REACT_APP_FLICKR_API_KEY=YOUR_FLICKR_API_KEY`
+`VITE_FLICKR_API_KEY=YOUR_FLICKR_API_KEY`
 
 ##### Install dependencies
 
