@@ -1,55 +1,71 @@
-# Snap Shot [![Tweet](https://img.shields.io/twitter/url/http/shields.io.svg?style=social)](https://twitter.com/intent/tweet?text=See%20this%20react%20example&url=https://yog9.github.io/SnapShot/&hashtags=react,context-api,freecodecamp,developers)
+# SnapShot
 
-[![Build Status](https://travis-ci.org/Yog9/SnapShot.svg?branch=master)](https://travis-ci.org/Yog9/SnapShot)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![HitCount](http://hits.dwyl.com/Yog9/SnapShot.svg)](http://hits.dwyl.com/Yog9/SnapShot)
+A React 19 + Vite image gallery powered by the [Flickr API](https://www.flickr.com/services/api/).
 
-[Demo of Snap Shot](https://yog9.github.io/SnapShot/)
+Browse curated categories (Mountain, Beaches, Birds, Food) or search for any tag.
+Photos are fetched live from Flickr and rendered in a responsive grid.
 
-![](/snapscout.png)
+## Prerequisites
 
-### Summary
+- Node.js `>= 20.19.0`
+- Yarn
 
-Snap Shot is a gallery created using React,React Hooks, React Router and Context API. The Routes were setup for four default pages and a search page. Also the images were displayed using the Flickr API and axios to fetch data.
+## Setup
 
-### Motivation
+1. Install dependencies:
+   ```bash
+   yarn install
+   ```
+2. Create a `.env` file from the example and add your Flickr API key:
+   ```bash
+   cp .env.example .env
+   ```
+   Then edit `.env`:
+   ```
+   VITE_FLICKR_API_KEY=your_flickr_api_key_here
+   ```
+   Get a key from the [Flickr App Garden](https://www.flickr.com/services/apps/create/).
 
-The purpose of this project was to get familiar with React Hooks and Context API.
+   > **Security note:** because this is a client-only app, `VITE_FLICKR_API_KEY`
+   > is bundled into the shipped JavaScript and is visible to anyone who opens
+   > the site's devtools. This is inherent to Flickr's public API and cannot be
+   > hidden without introducing a server-side proxy. Prefer a key you can rotate.
 
-### Getting Started
+## Scripts
 
-Click the demo link or clone/download the repository on your local machine.
-Create a `.env.local` file in the project root and add your Flickr API key:
-`VITE_FLICKR_API_KEY=YOUR_FLICKR_API_KEY`
+| Script          | Description                                  |
+| --------------- | -------------------------------------------- |
+| `yarn dev`      | Start the Vite dev server (port 3000)        |
+| `yarn build`    | Production build into `dist/`                |
+| `yarn preview`  | Preview the production build locally         |
+| `yarn test`     | Run the Vitest test suite (jsdom)            |
+| `yarn deploy`   | Build and publish `dist/` to GitHub Pages    |
 
-##### Install dependencies
+## Deployment
 
-`yarn install`
+The app is configured for GitHub Pages at
+`https://vgratsilev.github.io/SnapShot`. `vite.config.js` sets
+`base: "/SnapShot/"` so built assets resolve under that sub-path, and routing
+uses `HashRouter` so it works with no server-side configuration.
 
-##### Run Snap Shot from the root directory.
+```bash
+yarn deploy
+```
 
-`yarn start`
+## Architecture
 
-### Built With
+See [ARCHITECTURE.md](./ARCHITECTURE.md) for the Feature-Sliced Design (FSD)
+project structure and the lint rules that enforce it.
 
-- React js
-- React Router
-- React Hooks
-- Context API
+## Features
+
+- Responsive grid layout
+- Search any Flickr tag
+- Curated category pages (Mountain, Beaches, Birds, Food)
+- Vite-powered dev server and build
+
+## Built With
+
+- React 19 + React Router 7
+- Vite 8
 - Flickr API
-
-### Features
-
-**1. Responsive Design.**
-
-**2. Search functionality added to search photos from API.**
-
-### Coming Soon
-
-- [ ] Cypress E2E Tests
-
-### Contributing
-
-Everyone is welcomed to contribute to this project. You can contribute either by submitting bugs or suggesting improvements by opening an issue on GitHub. Please see the [CONTRIBUTING](CONTRIBUTING.md) guidelines for more information.
-
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).

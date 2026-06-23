@@ -8,8 +8,12 @@ const Gallery = ({ data }) => {
   }
 
   const images = data.map(image => {
-    const { farm, server, id, secret, title } = image;
-    const url = `https://farm${farm}.staticflickr.com/${server}/${id}_${secret}_m.jpg`;
+    const { server, id, secret, title } = image;
+    // Current Flickr image URL format. The legacy `farm{N}.staticflickr.com`
+    // host still resolves, but `live.staticflickr.com` is the preferred,
+    // farm-independent format documented by the Flickr API.
+    // https://www.flickr.com/services/api/misc.urls.html
+    const url = `https://live.staticflickr.com/${server}/${id}_${secret}_m.jpg`;
 
     return <Image url={url} key={id} title={title} />;
   });
