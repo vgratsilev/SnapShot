@@ -1,11 +1,15 @@
-import React, { useContext, useEffect } from "react";
-import { PhotoContext } from "../context/PhotoContext";
+import { useEffect } from "react";
+import { usePhotos } from "../context/PhotoContext";
 import Gallery from "./Gallery";
 import Loader from "./Loader";
 import NoImages from "./NoImages";
 
-const Container = ({ searchTerm }) => {
-  const { images, loading, error, runSearch } = useContext(PhotoContext);
+interface ContainerProps {
+  searchTerm: string;
+}
+
+const Container = ({ searchTerm }: ContainerProps) => {
+  const { images, loading, error, runSearch } = usePhotos();
 
   useEffect(() => {
     runSearch(searchTerm);

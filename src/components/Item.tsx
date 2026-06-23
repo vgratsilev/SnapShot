@@ -1,7 +1,10 @@
-import React from "react";
 import Container from "./Container";
 
-const Item = ({ searchTerm }) => {
+interface ItemProps {
+  searchTerm: string;
+}
+
+const Item = ({ searchTerm }: ItemProps) => {
   return (
     <div>
       <h2>{searchTerm} Pictures</h2>

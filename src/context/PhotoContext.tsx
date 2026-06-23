@@ -1,15 +1,36 @@
-import React, { createContext, useCallback, useMemo, useState } from "react";
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useMemo,
+  useState,
+  type ReactNode
+} from "react";
 import axios from "axios";
 import { apiKey } from "../api/config";
+import type { FlickrPhoto, FlickrSearchResponse } from "../types/flickr";
 
-export const PhotoContext = createContext();
+export interface PhotoContextValue {
+  images: FlickrPhoto[];
+  loading: boolean;
+  error: string;
+  runSearch: (query: string) => Promise<void>;
+}
 
-const PhotoContextProvider = ({ children }) => {
-  const [images, setImages] = useState([]);
+export const PhotoContext = createContext<PhotoContextValue | undefined>(
+  undefined
+);
+
+interface PhotoContextProviderProps {
+  children: ReactNode;
+}
+
+const PhotoContextProvider = ({ children }: PhotoContextProviderProps) => {
+  const [images, setImages] = useState<FlickrPhoto[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  const runSearch = useCallback(async query => {
+  const runSearch = useCallback(async (query: string) => {
     const searchTerm = query.trim();
 
     if (!searchTerm) {
@@ -39,11 +60,11 @@ const PhotoContextProvider = ({ children }) => {
     setError("");
 
     try {
-      const response = await axios.get(
+      const response = await axios.get<FlickrSearchResponse>(
         `https://api.flickr.com/services/rest/?${params.toString()}`
       );
 
-      setImages(response.data.photos?.photo || []);
+      setImages(response.data.photos?.photo ?? []);
     } catch (requestError) {
       console.error(
         "Encountered an error with fetching and parsing data",
@@ -56,7 +77,7 @@ const PhotoContextProvider = ({ children }) => {
     }
   }, []);
 
-  const value = useMemo(
+  const value = useMemo<PhotoContextValue>(
     () => ({ images, loading, error, runSearch }),
     [images, loading, error, runSearch]
   );
@@ -64,6 +85,14 @@ const PhotoContextProvider = ({ children }) => {
   return (
     <PhotoContext.Provider value={value}>{children}</PhotoContext.Provider>
   );
+};
+
+export const usePhotos = (): PhotoContextValue => {
+  const context = useContext(PhotoContext);
+  if (!context) {
+    throw new Error("usePhotos must be used within a PhotoContextProvider");
+  }
+  return context;
 };
 
 export default PhotoContextProvider;

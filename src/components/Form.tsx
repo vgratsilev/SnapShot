@@ -1,13 +1,17 @@
-import React, { useState } from "react";
+import React, { useState, type FormEvent } from "react";
 
-const Form = ({ handleSubmit }) => {
+interface FormProps {
+  handleSubmit: (event: FormEvent<HTMLFormElement>, searchInput: string) => void;
+}
+
+const Form = ({ handleSubmit }: FormProps) => {
   const [searchEntry, setSearchEntry] = useState("");
 
-  const updateSearchInput = event => {
+  const updateSearchInput = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchEntry(event.target.value);
   };
 
-  const handleFormSubmit = event => {
+  const handleFormSubmit = (event: FormEvent<HTMLFormElement>) => {
     handleSubmit(event, searchEntry);
     setSearchEntry("");
   };

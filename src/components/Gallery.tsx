@@ -1,8 +1,12 @@
-import React from "react";
 import NoImages from "./NoImages";
 import Image from "./Image";
+import type { FlickrPhoto } from "../types/flickr";
 
-const Gallery = ({ data }) => {
+interface GalleryProps {
+  data: FlickrPhoto[];
+}
+
+const Gallery = ({ data }: GalleryProps) => {
   if (data.length === 0) {
     return <NoImages />;
   }

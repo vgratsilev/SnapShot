@@ -1,4 +1,4 @@
-import React from "react";
+import { type FormEvent } from "react";
 import { Navigate, Route, Routes, useNavigate } from "react-router-dom";
 import PhotoContextProvider from "./context/PhotoContext";
 import Header from "./components/Header";
@@ -9,7 +9,10 @@ import NotFound from "./components/NotFound";
 const App = () => {
   const navigate = useNavigate();
 
-  const handleSubmit = (event, searchInput) => {
+  const handleSubmit = (
+    event: FormEvent<HTMLFormElement>,
+    searchInput: string
+  ) => {
     event.preventDefault();
 
     const nextSearch = searchInput.trim();
