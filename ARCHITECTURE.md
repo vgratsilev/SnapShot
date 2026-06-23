@@ -12,7 +12,7 @@ a layered, slice-based architecture for front-end applications.
 
 FSD gives the codebase:
 
-- **Predictable dependency direction** — modules can only import from layers *below*
+- **Predictable dependency direction** — modules can only import from layers _below_
   them. There is no tangled, circular dependency graph.
 - **Separation of concerns** — business logic, UI composition, routing, and shared
   infrastructure live in distinct layers, each with a single responsibility.
@@ -45,7 +45,7 @@ and each slice is internally divided into **segments**: `ui`, `model`, `api`,
 ### Public API rule
 
 A slice exposes its capabilities through a barrel `index.ts`. Consumers import
-*from the slice*, never from its internal segments:
+_from the slice_, never from its internal segments:
 
 ```ts
 // ✅ allowed
@@ -99,16 +99,19 @@ src/
 ## Layer-by-layer description
 
 ### `app/`
+
 The application entry point. Composes all global providers (router, error
 boundary) and mounts the tree. It knows about routing but contains no business
-logic. This is the only layer that may reference *every* other layer.
+logic. This is the only layer that may reference _every_ other layer.
 
 ### `pages/`
+
 One slice per route. A page orchestrates widgets and features into a screen and
 binds the route's `loader` (react-router v7) to the `entities/photo` data source.
 Pages are lazy-loaded via `React.lazy` to keep the initial bundle small.
 
 ### `widgets/`
+
 Large, self-contained blocks composed of features and entities. Examples:
 
 - **`header`** — title, search form, category navigation.
@@ -116,6 +119,7 @@ Large, self-contained blocks composed of features and entities. Examples:
   states, consuming photos provided by a route loader.
 
 ### `features/`
+
 Discrete user interactions, each with its own model and UI. They are the main
 unit a widget or page consumes.
 
@@ -124,6 +128,7 @@ unit a widget or page consumes.
 - **`photo-categories`** — the Mountain / Beach / Bird / Food category links.
 
 ### `entities/`
+
 Domain models and their data sources. SnapShot has a single entity: `photo`.
 
 - **`entities/photo/api`** — a typed, `fetch`-based client for the Flickr REST
@@ -134,6 +139,7 @@ Domain models and their data sources. SnapShot has a single entity: `photo`.
   public API.
 
 ### `shared/`
+
 Framework-agnostic, app-agnostic code safe to copy into any project.
 
 - **`shared/api`** — base `fetch` wrapper (timeouts, JSON parsing, typed errors).
