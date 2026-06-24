@@ -1,1 +1,1 @@
-export { App, RoutedGallery } from "./ui";
+export { App } from "./ui";

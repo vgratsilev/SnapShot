@@ -1,7 +1,25 @@
 import { cleanup, render, screen } from "@testing-library/react";
-import { afterEach, describe, expect, it } from "vitest";
+import { act } from "react";
+import { afterEach, describe, expect, it, vi } from "vitest";
 import { RouterProvider, createMemoryRouter } from "react-router-dom";
+import { App } from "@/app";
 import { createAppRouter } from "@/app/providers";
+
+vi.mock("@/entities/photo", async (importOriginal) => {
+  const actual = await importOriginal<typeof import("@/entities/photo")>();
+
+  return {
+    ...actual,
+    createCategoryLoader: (term: string) => () => ({
+      query: term,
+      photos: []
+    }),
+    searchLoader: () => ({
+      query: "",
+      photos: []
+    })
+  };
+});
 
 // In tests we use a memory router so we don't depend on the browser URL bar.
 // We replicate the same route structure as the production router but with
@@ -27,5 +45,51 @@ describe("App", () => {
       screen.getByRole("heading", { level: 1, name: "SnapShot" })
     ).toBeInTheDocument();
     expect(screen.getByRole("link", { name: "Mountain" })).toBeInTheDocument();
+  });
+
+  it("shows gallery skeletons while a route loader is pending", async () => {
+    let resolveBeachLoader: (value: unknown) => void = () => {};
+    const beachLoader = vi.fn(
+      () =>
+        new Promise((resolve) => {
+          resolveBeachLoader = resolve;
+        })
+    );
+    const router = createMemoryRouter(
+      [
+        {
+          path: "/",
+          element: <App />,
+          children: [
+            { path: "mountain", element: <div>Mountain route</div> },
+            {
+              path: "beach",
+              element: <div>Beach route</div>,
+              loader: beachLoader
+            }
+          ]
+        }
+      ],
+      { initialEntries: ["/mountain"] }
+    );
+
+    render(<RouterProvider router={router} />);
+    expect(screen.getByText("Mountain route")).toBeInTheDocument();
+
+    void act(() => {
+      void router.navigate("/beach");
+    });
+
+    expect(
+      await screen.findByRole("heading", {
+        level: 2,
+        name: "Beach Pictures"
+      })
+    ).toBeInTheDocument();
+    expect(screen.getByLabelText("Loading photos")).toBeInTheDocument();
+
+    await act(async () => {
+      resolveBeachLoader(null);
+    });
   });
 });

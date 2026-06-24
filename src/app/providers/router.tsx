@@ -1,6 +1,7 @@
 import { createHashRouter, Navigate, type RouteObject } from "react-router-dom";
-import { categoryLoader, searchLoader } from "@/entities/photo";
-import { App, RoutedGallery } from "../ui";
+import { createCategoryLoader, searchLoader } from "@/entities/photo";
+import { CategoryPage } from "@/pages/category";
+import { App } from "../ui";
 import { GalleryLoader } from "@/widgets/gallery";
 
 /** Create the route tree for `RouterProvider`. */
@@ -12,18 +13,12 @@ export const createAppRouter = () =>
       children: [
         { index: true, element: <Navigate to="/mountain" replace /> },
 
-        // Category routes: each one runs `categoryLoader` with its `searchTerm`
-        // param and renders the gallery via `RoutedGallery`.
+        // Category routes: each static route owns the query it loads.
         ...(["mountain", "beach", "bird", "food"] as const).map<RouteObject>(
           (term) => ({
             path: term,
-            element: (
-              <>
-                <h2>{term} Pictures</h2>
-                <RoutedGallery />
-              </>
-            ),
-            loader: categoryLoader,
+            element: <CategoryPage searchTerm={term} />,
+            loader: createCategoryLoader(term),
             hydrateFallbackElement: (
               <div className="photo-container">
                 <GalleryLoader />

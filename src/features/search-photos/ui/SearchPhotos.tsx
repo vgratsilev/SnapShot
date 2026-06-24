@@ -1,5 +1,6 @@
 import { useState, type ChangeEvent, type FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
+import searchIconUrl from "../assets/search-icon.svg";
 
 interface SearchPhotosProps {
   /** Override for tests or controlled usage. Defaults to router navigation. */
@@ -53,13 +54,12 @@ export const SearchPhotos = ({ onSubmit }: SearchPhotosProps) => {
         disabled={!searchEntry.trim()}
         aria-label="Search"
       >
-        <svg height="32" width="32" aria-hidden="true">
-          <path
-            d="M19.427 21.427a8.5 8.5 0 1 1 2-2l5.585 5.585c.55.55.546 1.43 0 1.976l-.024.024a1.399 1.399 0 0 1-1.976 0l-5.585-5.585zM14.5 21a6.5 6.5 0 1 0 0-13 6.5 6.5 0 0 0 0 13z"
-            fill="#ffffff"
-            fillRule="evenodd"
-          />
-        </svg>
+        <img
+          alt=""
+          aria-hidden="true"
+          className="search-button-icon"
+          src={searchIconUrl}
+        />
       </button>
     </form>
   );

@@ -6,4 +6,4 @@ export type {
 export { photoUrl } from "./types";
 export type { PhotoResult } from "./loadPhotos";
 export { loadPhotos } from "./loadPhotos";
-export { categoryLoader, searchLoader } from "./loaders";
+export { createCategoryLoader, searchLoader } from "./loaders";

@@ -3,5 +3,6 @@ export {
   PhotoGrid,
   PhotoCard,
   GalleryEmpty,
-  GalleryLoader
+  GalleryLoader,
+  GallerySkeleton
 } from "./ui";

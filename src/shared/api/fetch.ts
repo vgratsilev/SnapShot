@@ -21,17 +21,17 @@ export interface GetJsonOptions {
   readonly signal?: AbortSignal;
 }
 
-export async function getJson<T>(
+export async function getJson(
   url: string,
   options: GetJsonOptions = {}
-): Promise<T> {
+): Promise<unknown> {
   const response = await fetch(url, {
     method: "GET",
     headers: { Accept: "application/json" },
     signal: options.signal
   });
 
-  const body = (await response.json().catch(() => undefined)) as T;
+  const body = await response.json().catch(() => undefined);
 
   if (!response.ok) {
     throw new ApiError(

@@ -1,43 +1,14 @@
 body {
+  margin: 0;
   text-align: center;
   font-family: "Josefin Sans", Helvetica, Arial, sans-serif;
   color: #3f4850;
 }
 
-.forkongithub a {
-  background: #000;
-  color: #fff;
-  text-decoration: none;
-  font-family: arial, sans-serif;
-  text-align: center;
-  font-weight: bold;
-  padding: 5px 40px;
-  font-size: 1rem;
-  line-height: 2rem;
-  position: relative;
-  transition: 0.5s;
-}
-
-.forkongithub a:hover {
-  background: #c11;
-  color: #fff;
-}
-
-.forkongithub a::before,
-.forkongithub a::after {
-  content: "";
-  width: 100%;
-  display: block;
-  position: absolute;
-  top: 1px;
-  left: 0;
-  height: 1px;
-  background: #fff;
-}
-
-.forkongithub a::after {
-  bottom: 1px;
-  top: auto;
+.container {
+  width: min(100% - 32px, 960px);
+  margin: 0 auto;
+  padding-bottom: 56px;
 }
 
 h2 {
@@ -74,17 +45,46 @@ a {
 }
 
 .search-form {
-  max-width: 460px;
   display: flex;
+  max-width: 460px;
   margin: 0 auto 32px;
 }
 
-.search-form button {
+.search-button {
+  display: inline-flex;
+  flex: 0 0 58px;
+  align-items: center;
+  justify-content: center;
+  min-height: 47px;
   outline: none;
   border: none;
-  padding: 0px 15px;
+  padding: 0 13px;
   border-radius: 0 0.35em 0.35em 0;
+  background-color: #051c33;
   cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    opacity 0.2s ease;
+}
+
+.search-button:hover:not(:disabled),
+.search-button:focus-visible {
+  background-color: #0b365f;
+}
+
+.search-button:disabled {
+  background-color: #051c33;
+  cursor: not-allowed;
+}
+
+.search-button:disabled .search-button-icon {
+  opacity: 0.55;
+}
+
+.search-button-icon {
+  display: block;
+  height: 28px;
+  width: 28px;
 }
 
 .active {
@@ -103,17 +103,28 @@ input {
   outline: none;
 }
 
+.main-nav ul {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  max-width: 460px;
+  margin: 0 auto;
+}
+
 .main-nav li {
-  width: 100%;
-  margin-bottom: 1em;
+  width: auto;
 }
 
 .main-nav a {
-  display: block;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
   background: #051c33;
   border-radius: 3px;
-  padding: 5px;
+  padding: 0 12px;
   color: #fff;
+  font-weight: 700;
 }
 
 .main-nav .active,
@@ -122,24 +133,51 @@ input {
 }
 
 .photo-container ul {
-  display: flex;
-  flex-flow: row wrap;
-  justify-content: space-between;
-  -ms-align-items: flex-start;
-  align-items: flex-start;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
+  gap: 16px;
+  margin: 0;
 }
 
 .photo-container ul li {
-  width: 220px;
-  height: 165px;
+  aspect-ratio: 4 / 3;
+  width: 100%;
   overflow: hidden;
-  margin-bottom: 15px;
 }
 
-.photo-container ul img {
+.photo-card {
+  position: relative;
+  background-color: #e8edf1;
+}
+
+.photo-skeleton {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.68), transparent),
+    #e8edf1;
+  background-size: 200% 100%;
+  animation: skeleton-shimmer 1.2s ease-in-out infinite;
+}
+
+.photo-container ul img,
+.photo-image {
+  display: block;
+  height: 100%;
+  object-fit: cover;
   width: 100%;
+}
+
+.photo-image {
+  opacity: 0;
   transform: scale(1.25);
-  transition: transform 1.25s;
+  transition:
+    opacity 0.25s ease,
+    transform 1.25s;
+}
+
+.photo-image.is-loaded {
+  opacity: 1;
 }
 
 .photo-container li:hover img {
@@ -173,8 +211,28 @@ input {
   }
 }
 
+@keyframes skeleton-shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+
+  100% {
+    background-position: -200% 0;
+  }
+}
+
 .not-found {
   padding-top: 5%;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .photo-skeleton {
+    animation: none;
+  }
+
+  .photo-image {
+    transition: none;
+  }
 }
 
 @media only screen and (max-width: 767px) {
@@ -182,8 +240,24 @@ input {
     padding-top: 2em;
   }
 
-  .photo-container li {
-    margin: auto;
+  .container {
+    padding-bottom: 40px;
+  }
+
+  h1 {
+    font-size: 3em;
+  }
+
+  h2 {
+    margin: 40px 0 28px;
+  }
+
+  .search-form {
+    margin-bottom: 24px;
+  }
+
+  .photo-container ul {
+    gap: 14px;
   }
 }
 
@@ -192,44 +266,19 @@ input {
     padding-top: 4em;
   }
 
-  .container {
-    max-width: 960px;
-    margin: auto;
-  }
-
   .main-nav ul {
     display: flex;
     justify-content: center;
+    gap: 0;
   }
 
   .main-nav li {
     margin: 10px;
     width: 100px;
   }
-}
 
-@media screen and (min-width: 800px) {
-  .forkongithub {
-    position: fixed;
-    display: block;
-    top: 0;
-    right: 0;
-    width: 200px;
-    overflow: hidden;
-    height: 200px;
-    z-index: 9999;
-  }
-
-  .forkongithub a {
-    width: 200px;
-    position: absolute;
-    top: 60px;
-    right: -60px;
-    transform: rotate(45deg);
-    -webkit-transform: rotate(45deg);
-    -ms-transform: rotate(45deg);
-    -moz-transform: rotate(45deg);
-    -o-transform: rotate(45deg);
-    box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.8);
+  .main-nav a {
+    min-height: 30px;
+    padding: 0 8px;
   }
 }

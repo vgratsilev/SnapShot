@@ -5,4 +5,4 @@ export type {
 } from "./model";
 export { photoUrl } from "./model";
 export type { PhotoResult } from "./model";
-export { loadPhotos, categoryLoader, searchLoader } from "./model";
+export { loadPhotos, createCategoryLoader, searchLoader } from "./model";

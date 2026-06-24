@@ -18,7 +18,10 @@ export interface PhotoResult {
 /**
  * Load photos for a query, hitting the cache first.
  */
-export async function loadPhotos(query: string): Promise<PhotoResult> {
+export async function loadPhotos(
+  query: string,
+  signal?: AbortSignal
+): Promise<PhotoResult> {
   const trimmed = query.trim();
   if (!trimmed) {
     return { query: trimmed, photos: [] };
@@ -30,10 +33,14 @@ export async function loadPhotos(query: string): Promise<PhotoResult> {
   }
 
   try {
-    const photos = await fetchPhotos(trimmed);
+    const photos = await fetchPhotos(trimmed, signal);
     photoCache.set(trimmed, photos);
     return { query: trimmed, photos };
   } catch (error) {
+    if (error instanceof Error && error.name === "AbortError") {
+      throw error;
+    }
+
     const message =
       error instanceof Error
         ? error.message

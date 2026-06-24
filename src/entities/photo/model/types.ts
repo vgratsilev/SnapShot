@@ -18,7 +18,7 @@ export interface FlickrPhotosPage {
   page: number;
   pages: number;
   perpage: number;
-  total: number;
+  total: string;
   photo: FlickrPhoto[];
 }
 
