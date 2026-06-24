@@ -39,19 +39,19 @@ Photos are fetched live from Flickr and rendered in a responsive grid.
 
 ## Scripts
 
-| Script              | Description                               |
-| ------------------- | ----------------------------------------- |
-| `yarn dev`          | Start the Vite dev server                 |
-| `yarn start`        | Alias for `yarn dev`                      |
-| `yarn build`        | Production build into `dist/`             |
-| `yarn preview`      | Preview the production build locally      |
-| `yarn test`         | Run the Vitest test suite (jsdom)         |
-| `yarn typecheck`    | Type-check with `tsc --noEmit`            |
-| `yarn lint`         | Lint with ESLint and FSD boundary rules   |
-| `yarn lint:fix`     | Lint and auto-fix                         |
-| `yarn format`       | Format source with Prettier               |
-| `yarn format:check` | Check formatting without writing          |
-| `yarn deploy`       | Build and publish `dist/` to GitHub Pages |
+| Script              | Description                             |
+| ------------------- | --------------------------------------- |
+| `yarn dev`          | Start the Vite dev server               |
+| `yarn start`        | Alias for `yarn dev`                    |
+| `yarn build`        | Production build into `dist/`           |
+| `yarn preview`      | Preview the production build locally    |
+| `yarn test`         | Run the Vitest test suite (jsdom)       |
+| `yarn typecheck`    | Type-check with `tsc --noEmit`          |
+| `yarn lint`         | Lint with ESLint and FSD boundary rules |
+| `yarn lint:fix`     | Lint and auto-fix                       |
+| `yarn format`       | Format source with Prettier             |
+| `yarn format:check` | Check formatting without writing        |
+| `yarn deploy`       | Optional manual publish to GitHub Pages |
 
 ## Deployment
 
@@ -60,9 +60,17 @@ The app is configured for GitHub Pages at
 `base: "/SnapShot/"` so built assets resolve under that sub-path, and routing
 uses a hash router so it works with no server-side configuration.
 
-```bash
-yarn deploy
-```
+Deployment is handled by `.github/workflows/deploy.yml` on pushes to `main` and
+manual `workflow_dispatch` runs.
+
+Before the first deploy:
+
+1. In GitHub, open repository **Settings -> Secrets and variables -> Actions**.
+2. Add repository secret `VITE_FLICKR_API_KEY`.
+3. In **Settings -> Pages**, set **Source** to **GitHub Actions**.
+
+The workflow type-checks, lints, tests, builds `dist/` with the Flickr key from
+GitHub Secrets, uploads the artifact, and deploys it through GitHub Pages.
 
 ## Architecture
 
