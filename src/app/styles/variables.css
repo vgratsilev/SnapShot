@@ -1,0 +1,29 @@
+:root {
+  --font-base: "Josefin Sans", Helvetica, Arial, sans-serif;
+  --font-brand: "Lobster", "Josefin Sans", Helvetica, Arial, sans-serif;
+
+  --content-width: 960px;
+  --control-width: 460px;
+
+  --radius-control: 0.35em;
+  --radius-nav: 3px;
+
+  --transition-fast: 0.2s ease;
+  --transition-image: 1.25s;
+
+  --grid-gap: 16px;
+  --grid-gap-mobile: 14px;
+
+  --color-text: #3f4850;
+  --color-heading: #051c33;
+  --color-primary: #0b365f;
+  --color-primary-hover: #14558f;
+  --color-primary-disabled: #6f7f8d;
+  --color-success: #16805b;
+  --color-input-bg: #edeff0;
+  --color-input-border: #d7dbdf;
+  --color-card-bg: #e8edf1;
+  --color-loader-track: #f3f3f3;
+  --color-white: #fff;
+  --color-skeleton-shine: rgba(255, 255, 255, 0.68);
+}
