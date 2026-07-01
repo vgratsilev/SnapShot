@@ -13,10 +13,9 @@ FSD gives the codebase:
 - Predictable dependency direction: modules can only import from layers below them.
 - Separation of concerns: business logic, UI composition, routing, and shared
   infrastructure live in distinct layers.
-- Controlled reuse: consumers import a slice through its public API instead of
-  reaching into internal files.
-- Scalable refactoring: adding a route or feature is localized to the layer that
-  owns it.
+- Direct imports: code imports the file it needs instead of going through barrel
+  re-exports.
+- Shared configuration: predefined categories live in one source of truth.
 
 ## Layers
 
@@ -36,20 +35,21 @@ Each layer contains slices such as `entities/photo` or
 `features/search-photos`. A slice may contain segments like `ui`, `model`, `api`,
 `lib`, or `config` when needed.
 
-## Public API Rule
+## Import Rules
 
-A slice exposes capabilities through a barrel `index.ts`. Consumers import from
-the slice, not from internal segments:
+The project does not use barrel `index.ts` files. Consumers import concrete
+files while still respecting FSD layer direction:
 
 ```ts
-// Allowed
-import { fetchPhotos, type FlickrPhoto } from "@/entities/photo";
-
-// Forbidden: reaches into slice internals
+// Allowed: direct file import from a lower layer
 import { fetchPhotos } from "@/entities/photo/api/flickr";
+
+// Forbidden: lower layers must not import upper layers
+import { Header } from "@/widgets/header/ui/Header";
 ```
 
-ESLint enforces this rule through `eslint-plugin-fsd-import`.
+ESLint keeps `fsd-relative-path` and `layer-imports` enabled. The
+`public-api-imports` rule is disabled because barrels are intentionally avoided.
 
 ## Directory Structure
 
@@ -62,7 +62,7 @@ src/
 
   pages/
     home/            redirect to the default category
-    category/        curated category pages
+    category/        predefined category pages
     search/          /search/:searchInput
     not-found/       404 fallback
 
@@ -78,12 +78,11 @@ src/
     photo/
       api/           Flickr REST client
       model/         photo types, route loaders, per-query cache
-      index.ts       public API
 
   shared/
     api/             base fetch client and API errors
-    config/          env access
-    lib/             tiny helpers such as cache and classNames
+    config/          env access and predefined category config
+    lib/             tiny helpers such as bounded cache
 ```
 
 ## Data Flow
@@ -96,8 +95,8 @@ URL -> router -> route loader -> entities/photo -> shared/api -> Flickr API
 ```
 
 - Navigation triggers a React Router loader in `entities/photo`.
-- The loader calls `loadPhotos`, which uses a per-query in-memory cache before
-  calling the Flickr client.
+- The loader calls `loadPhotos`, which uses a bounded per-query in-memory cache
+  before calling the Flickr client.
 - Flickr requests use `text` search with relevance sorting so category routes
   and manual searches return images that match the current query.
 - The page passes the loaded result to `widgets/gallery` for rendering.

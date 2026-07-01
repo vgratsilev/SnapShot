@@ -2,24 +2,19 @@ import { cleanup, render, screen } from "@testing-library/react";
 import { act } from "react";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { RouterProvider, createMemoryRouter } from "react-router-dom";
-import { App } from "@/app";
-import { createAppRouter } from "@/app/providers";
+import { App } from "@/app/ui/App";
+import { createAppRouter } from "@/app/providers/router";
 
-vi.mock("@/entities/photo", async (importOriginal) => {
-  const actual = await importOriginal<typeof import("@/entities/photo")>();
-
-  return {
-    ...actual,
-    createCategoryLoader: (term: string) => () => ({
-      query: term,
-      photos: []
-    }),
-    searchLoader: () => ({
-      query: "",
-      photos: []
-    })
-  };
-});
+vi.mock("@/entities/photo/model/loaders", () => ({
+  createCategoryLoader: (term: string) => () => ({
+    query: term,
+    photos: []
+  }),
+  searchLoader: () => ({
+    query: "",
+    photos: []
+  })
+}));
 
 // In tests we use a memory router so we don't depend on the browser URL bar.
 // We replicate the same route structure as the production router but with

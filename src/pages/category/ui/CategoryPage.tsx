@@ -1,21 +1,20 @@
 import { useLoaderData } from "react-router-dom";
-import type { PhotoResult } from "@/entities/photo";
-import { Gallery } from "@/widgets/gallery";
+import type { PhotoResult } from "@/entities/photo/model/loadPhotos";
+import { Gallery } from "@/widgets/gallery/ui/Gallery";
 
 interface CategoryPageProps {
-  searchTerm: string;
+  title: string;
 }
 
 /**
- * Category page. The route config owns the concrete category query and its
- * loader; this component renders the resolved photos for that category.
+ * Category page. The route config owns the concrete query, title, and loader.
  */
-export const CategoryPage = ({ searchTerm }: CategoryPageProps) => {
+export const CategoryPage = ({ title }: CategoryPageProps) => {
   const { photos, error } = useLoaderData() as PhotoResult;
 
   return (
     <div>
-      <h2>{searchTerm} Pictures</h2>
+      <h2>{title}</h2>
       <Gallery photos={photos} error={error} />
     </div>
   );

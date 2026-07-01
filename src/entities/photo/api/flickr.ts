@@ -1,9 +1,9 @@
-import { getJson } from "@/shared/api";
-import { FLICKR_API_KEY } from "@/shared/config";
+import { getJson } from "@/shared/api/fetch";
+import { FLICKR_API_KEY } from "@/shared/config/env";
 import type { FlickrPhoto } from "../model/types";
 
 const ENDPOINT = "https://api.flickr.com/services/rest/";
-const PER_PAGE = "24";
+const PER_PAGE = 24;
 
 const isRecord = (value: unknown): value is Record<string, unknown> =>
   typeof value === "object" && value !== null;
@@ -15,14 +15,9 @@ const isFlickrPhoto = (value: unknown): value is FlickrPhoto => {
 
   return (
     typeof value.id === "string" &&
-    typeof value.owner === "string" &&
     typeof value.secret === "string" &&
     typeof value.server === "string" &&
-    typeof value.farm === "number" &&
-    typeof value.title === "string" &&
-    typeof value.ispublic === "number" &&
-    typeof value.isfriend === "number" &&
-    typeof value.isfamily === "number"
+    typeof value.title === "string"
   );
 };
 
@@ -52,11 +47,7 @@ const parseFlickrPhotos = (data: unknown): FlickrPhoto[] => {
     throw new Error("Flickr API returned an invalid photo list.");
   }
 
-  if (!photos.every(isFlickrPhoto)) {
-    throw new Error("Flickr API returned an invalid photo item.");
-  }
-
-  return photos;
+  return photos.filter(isFlickrPhoto);
 };
 
 /**
@@ -79,7 +70,7 @@ export async function fetchPhotos(
     text: query,
     sort: "relevance",
     safe_search: "1",
-    per_page: PER_PAGE,
+    per_page: String(PER_PAGE),
     format: "json",
     nojsoncallback: "1"
   });

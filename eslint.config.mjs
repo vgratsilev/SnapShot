@@ -43,8 +43,8 @@ export default tseslint.config(
         "error",
         { alias: "@", ignoreImportPatterns: [] }
       ],
-      // Consume slices through their public API (barrel index), not internals.
-      "fsd-import/public-api-imports": ["error", { alias: "@" }]
+      // Direct file imports are allowed; the project intentionally avoids barrel APIs.
+      "fsd-import/public-api-imports": "off"
     }
   },
 
@@ -54,14 +54,6 @@ export default tseslint.config(
     rules: {
       "fsd-import/fsd-relative-path": "off",
       "fsd-import/layer-imports": "off",
-      "fsd-import/public-api-imports": "off"
-    }
-  },
-
-  // Tests can import internals when needed (e.g. testing model functions).
-  {
-    files: ["src/**/*.test.ts", "src/**/*.test.tsx"],
-    rules: {
       "fsd-import/public-api-imports": "off"
     }
   },

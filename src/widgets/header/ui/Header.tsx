@@ -1,10 +1,7 @@
-import { SearchPhotos } from "@/features/search-photos";
-import { PhotoCategories } from "@/features/photo-categories";
+import { PhotoCategories } from "@/features/photo-categories/ui/PhotoCategories";
+import { SearchPhotos } from "@/features/search-photos/ui/SearchPhotos";
 
-/**
- * Site header: brand title, free-text search, and curated category navigation.
- * Composed entirely from features — no business logic lives here.
- */
+/** Site header with brand title, search, and predefined category navigation. */
 export const Header = () => {
   return (
     <div>

@@ -1,11 +1,10 @@
 import { useLoaderData } from "react-router-dom";
-import type { PhotoResult } from "@/entities/photo";
-import { Gallery } from "@/widgets/gallery";
+import type { PhotoResult } from "@/entities/photo/model/loadPhotos";
+import { Gallery } from "@/widgets/gallery/ui/Gallery";
 
 /**
  * Free-text search page (`/search/:searchInput`). Reads the resolved photo data
- * from the route's `loader` (defined in `app/ui/App.tsx`) and renders the
- * gallery widget.
+ * from the route loader and renders the gallery widget.
  */
 export const SearchPage = () => {
   const { query, photos, error } = useLoaderData() as PhotoResult;

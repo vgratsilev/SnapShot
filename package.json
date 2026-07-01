@@ -1,5 +1,6 @@
 {
   "name": "snapshot",
+  "displayName": "SnapShot",
   "version": "0.1.0",
   "private": true,
   "homepage": "https://vgratsilev.github.io/SnapShot",

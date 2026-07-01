@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { photoUrl, type FlickrPhoto } from "@/entities/photo";
+import { photoUrl, type FlickrPhoto } from "@/entities/photo/model/types";
 
 interface PhotoCardProps {
   photo: FlickrPhoto;

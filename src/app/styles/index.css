@@ -60,7 +60,7 @@ a {
   border: none;
   padding: 0 13px;
   border-radius: 0 0.35em 0.35em 0;
-  background-color: #051c33;
+  background-color: #0b365f;
   cursor: pointer;
   transition:
     background-color 0.2s ease,
@@ -69,11 +69,11 @@ a {
 
 .search-button:hover:not(:disabled),
 .search-button:focus-visible {
-  background-color: #0b365f;
+  background-color: #14558f;
 }
 
 .search-button:disabled {
-  background-color: #051c33;
+  background-color: #6f7f8d;
   cursor: not-allowed;
 }
 
@@ -88,7 +88,7 @@ a {
 }
 
 .active {
-  background-color: #051c33;
+  background-color: #14558f;
   cursor: pointer;
 }
 
@@ -120,7 +120,7 @@ input {
   align-items: center;
   justify-content: center;
   min-height: 44px;
-  background: #051c33;
+  background: #0b365f;
   border-radius: 3px;
   padding: 0 12px;
   color: #fff;
@@ -129,7 +129,7 @@ input {
 
 .main-nav .active,
 .main-nav a:hover {
-  background-color: #051c33;
+  background-color: #16805b;
 }
 
 .photo-container ul {
@@ -182,10 +182,6 @@ input {
 
 .photo-container li:hover img {
   transform: scale(1.65);
-}
-
-.photo-container .not-found {
-  width: 100%;
 }
 
 .loader {

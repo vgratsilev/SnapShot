@@ -1,4 +1,4 @@
-import type { FlickrPhoto } from "@/entities/photo";
+import type { FlickrPhoto } from "@/entities/photo/model/types";
 import { PhotoCard } from "./PhotoCard";
 import { GalleryEmpty } from "./GalleryStates";
 

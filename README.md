@@ -2,8 +2,7 @@
 
 A React 19 + Vite image gallery powered by the [Flickr API](https://www.flickr.com/services/api/).
 
-Browse curated categories (Mountain, Beaches, Birds, Food) or search for any text query.
-Photos are fetched live from Flickr and rendered in a responsive grid.
+Browse predefined categories (Mountain, Beaches, Birds, Food) or search for any text query. Photos are fetched live from Flickr and rendered in a responsive grid.
 
 ## Prerequisites
 
@@ -86,9 +85,9 @@ tooling details.
 
 - Responsive grid layout
 - Search Flickr by text query
-- Curated category pages (Mountain, Beaches, Birds, Food)
-- Per-query in-memory cache (no refetch on revisit)
-- Route-level code splitting via React Router data loaders
+- Predefined category pages (Mountain, Beaches, Birds, Food)
+- Bounded per-query in-memory cache (no refetch on quick revisits)
+- Lazy route modules for search and 404 pages
 - Fully typed (TypeScript strict mode)
 
 ## Built With

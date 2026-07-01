@@ -1,12 +1,14 @@
-import { Cache } from "@/shared/lib";
+import { Cache } from "@/shared/lib/cache";
 import { fetchPhotos } from "../api/flickr";
 import type { FlickrPhoto } from "./types";
 
-/**
- * Per-query in-memory cache so revisiting a route does not refetch. Lives for
- * the current page session only.
- */
-const photoCache = new Cache<string, FlickrPhoto[]>();
+const PHOTO_CACHE_MAX_ENTRIES = 20;
+const PHOTO_CACHE_TTL_MS = 10 * 60 * 1000;
+
+const photoCache = new Cache<string, FlickrPhoto[]>({
+  maxEntries: PHOTO_CACHE_MAX_ENTRIES,
+  ttlMs: PHOTO_CACHE_TTL_MS
+});
 
 export interface PhotoResult {
   query: string;
@@ -48,5 +50,3 @@ export async function loadPhotos(
     return { query: trimmed, photos: [], error: message };
   }
 }
-
-export { photoCache };

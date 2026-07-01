@@ -1,8 +1,8 @@
 import { NavLink } from "react-router-dom";
-import { CATEGORIES } from "../model/categories";
+import { CATEGORIES } from "@/shared/config/categories";
 
 /**
- * Navigation between the curated category pages.
+ * Navigation between the predefined category pages.
  */
 export const PhotoCategories = () => {
   return (

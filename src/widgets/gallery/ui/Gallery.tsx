@@ -1,4 +1,4 @@
-import type { FlickrPhoto } from "@/entities/photo";
+import type { FlickrPhoto } from "@/entities/photo/model/types";
 import { PhotoGrid } from "./PhotoGrid";
 import { GalleryEmpty } from "./GalleryStates";
 
@@ -8,9 +8,7 @@ interface GalleryProps {
 }
 
 /**
- * Gallery widget. Renders the grid for a list of photos, or an error state
- * when the loader surfaced a failure. The route page owns loading state via
- * React Router's deferred loader data.
+ * Gallery widget. Renders photos or an error state from route loader data.
  */
 export const Gallery = ({ photos, error }: GalleryProps) => {
   if (error) {

@@ -1,19 +1,16 @@
 import { Outlet, useNavigation } from "react-router-dom";
-import { GallerySkeleton } from "@/widgets/gallery";
-import { Header } from "@/widgets/header";
-
-const CATEGORY_TITLES: Record<string, string> = {
-  mountain: "Mountain Pictures",
-  beach: "Beach Pictures",
-  bird: "Bird Pictures",
-  food: "Food Pictures"
-};
+import { getCategoryByTerm } from "@/shared/config/categories";
+import { GallerySkeleton } from "@/widgets/gallery/ui/GalleryStates";
+import { Header } from "@/widgets/header/ui/Header";
 
 const getPendingGalleryTitle = (pathname: string | undefined) => {
   const [section, searchInput] = pathname?.split("/").filter(Boolean) ?? [];
 
-  if (section && CATEGORY_TITLES[section]) {
-    return CATEGORY_TITLES[section];
+  if (section) {
+    const category = getCategoryByTerm(section);
+    if (category) {
+      return category.title;
+    }
   }
 
   if (section === "search" && searchInput) {

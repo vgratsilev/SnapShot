@@ -1,12 +1,12 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import { getJson } from "@/shared/api";
+import { getJson } from "@/shared/api/fetch";
 import { fetchPhotos } from "./flickr";
 
-vi.mock("@/shared/config", () => ({
+vi.mock("@/shared/config/env", () => ({
   FLICKR_API_KEY: "test-key"
 }));
 
-vi.mock("@/shared/api", () => ({
+vi.mock("@/shared/api/fetch", () => ({
   getJson: vi.fn()
 }));
 
@@ -43,12 +43,29 @@ describe("fetchPhotos", () => {
     await expect(fetchPhotos("mountain")).rejects.toThrow("Invalid API Key");
   });
 
-  it("rejects malformed photo items from Flickr", async () => {
+  it("filters malformed photo items without rejecting valid photos", async () => {
     getJsonMock.mockResolvedValue({
       stat: "ok",
-      photos: { photo: [{ id: "missing-required-fields" }] }
+      photos: {
+        photo: [
+          {
+            id: "valid",
+            secret: "secret",
+            server: "server",
+            title: "Valid photo"
+          },
+          { id: "missing-required-fields" }
+        ]
+      }
     });
 
-    await expect(fetchPhotos("mountain")).rejects.toThrow("invalid photo item");
+    await expect(fetchPhotos("mountain")).resolves.toEqual([
+      {
+        id: "valid",
+        secret: "secret",
+        server: "server",
+        title: "Valid photo"
+      }
+    ]);
   });
 });
