@@ -78,8 +78,11 @@ where modules may only import from layers below them (`app -> pages -> widgets -
 features -> entities -> shared`). The boundary rules are enforced at lint time by
 `eslint-plugin-fsd-import`.
 
-See [ARCHITECTURE.md](./ARCHITECTURE.md) for the full structure, data flow, and
-tooling details.
+See [ARCHITECTURE.md](./docs/ARCHITECTURE.md) for the full structure, data flow,
+and tooling details.
+
+See [IMPROVEMENT_PLAN.md](./docs/IMPROVEMENT_PLAN.md) for the nearest roadmap
+and planned improvements.
 
 ## Features
 
